@@ -7,7 +7,7 @@ import Example from '../database/models/ExampleModel';
 
 import { Response } from 'superagent';
 
-chai.use(chaiHttp);
+// chai.use(chaiHttp);
 
 const { expect } = chai;
 
