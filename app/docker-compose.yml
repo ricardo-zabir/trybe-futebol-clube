@@ -30,7 +30,7 @@ services:
       # Os dados abaixo se referem ao container `db`
       # Dica: Relembre aqui da comunicação interna entre containers
       - DB_USER=root
-      - DB_PASS=
+      - DB_PASS=mysqlpass123
       - DB_HOST=db
       - DB_NAME=TRYBE_FUTEBOL_CLUBE
       - DB_PORT=3306
