@@ -1,1 +1,4 @@
 @types/jest
+express-rescue
+bcryptjs
+@types/bcryptjs
