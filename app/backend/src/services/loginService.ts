@@ -1,6 +1,7 @@
 import bcryptjs from 'bcryptjs';
 import auth from '../middlewares/authMiddleware';
 import User from '../database/models/User';
+import UserInterface from '../interfaces/IUser';
 
 const throwError = (status: string, message: string) => {
   const err = new Error(message);
@@ -25,7 +26,7 @@ const post = async (email: string, password: string) => {
     username: result?.username,
     role: result?.role,
     email: result?.email,
-    password: result?.password });
+    password: result?.password } as UserInterface);
   return {
     user: {
       id: result?.id, username: result?.username, role: result?.role, email: result?.email },
