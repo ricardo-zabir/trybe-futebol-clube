@@ -15,7 +15,7 @@ Team.init({
     primaryKey: true,
     autoIncrement: true,
   },
-  team_name: DataTypes.STRING,
+  teamName: DataTypes.STRING,
 }, {
   // ... Outras configs
   underscored: true,

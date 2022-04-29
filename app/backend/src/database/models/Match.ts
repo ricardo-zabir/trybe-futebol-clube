@@ -23,9 +23,9 @@ Match.init({
     primaryKey: true,
     autoIncrement: true,
   },
-  home_team_goals: DataTypes.INTEGER,
-  away_team_goals: DataTypes.INTEGER,
-  in_progress: DataTypes.INTEGER,
+  homeTeamGoals: DataTypes.INTEGER,
+  awayTeamGoals: DataTypes.INTEGER,
+  inProgress: DataTypes.INTEGER,
 }, {
   // ... Outras configs
   underscored: true,
@@ -42,10 +42,12 @@ Match.init({
 // OtherModel.belongsTo(Example, { foreignKey: 'campoA', as: 'campoEstrangeiroA' });
 // OtherModel.belongsTo(Example, { foreignKey: 'campoB', as: 'campoEstrangeiroB' });
 Match.belongsTo(Team, {
-  foreignKey: 'home_team' as 'team',
+  foreignKey: 'homeTeam',
+  as: 'teamHome',
 });
 Match.belongsTo(Team, {
-  foreignKey: 'away_team' as 'team',
+  foreignKey: 'awayTeam',
+  as: 'teamAway',
 });
 // Example.hasMany(OtherModel, { foreignKey: 'campoC', as: 'campoEstrangeiroC' });
 // Example.hasMany(OtherModel, { foreignKey: 'campoD', as: 'campoEstrangeiroD' });
