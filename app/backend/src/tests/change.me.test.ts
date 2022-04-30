@@ -123,6 +123,50 @@ describe('GET matches', () => {
     });
     it('Retorna o status correto', () => {
       expect(chaiHttpResponse.status).to.equal(200)
-    })
-  })
+    });
+  });
+  describe('Retorna as partidas em andamento', () => {
+    let chaiHttpResponse: Response;
+    beforeEach(async () => {
+      sinon.stub(Match, 'findAll').resolves(matchesMock.filter((obj) => obj.inProgress) as any);
+      chaiHttpResponse = await 
+      chai
+      .request(app)
+      .get('/matches?inProgress=true')
+    });
+    afterEach(() => {
+      (Match.findAll as sinon.SinonStub).restore();
+    });
+    it('Retorna um array de partidas', () => {
+        expect(chaiHttpResponse.body).to.be.an('array');
+    });
+    it('Todos os elementos tem o atributo onProgress setado para true', () => {
+      chaiHttpResponse.body.map((obj: MatchInterface) => expect(obj.inProgress));
+    });
+    it('Retorna o status correto', () => {
+        expect(chaiHttpResponse.status).to.equal(200)
+    });
+  });
+  describe('Retorna as partidas finalizadas', () => {
+    let chaiHttpResponse: Response;
+    beforeEach(async () => {
+      sinon.stub(Match, 'findAll').resolves(matchesMock.filter((obj) => !obj.inProgress) as any);
+      chaiHttpResponse = await 
+      chai
+      .request(app)
+      .get('/matches?inProgress=false')
+    });
+    afterEach(() => {
+      (Match.findAll as sinon.SinonStub).restore();
+    });
+    it('Retorna um array de partidas', () => {
+        expect(chaiHttpResponse.body).to.be.an('array');
+    });
+    it('Todos os elementos tem o atributo onProgress setado para false', () => {
+      chaiHttpResponse.body.map((obj: MatchInterface) => expect(obj.inProgress).to.equal(false));
+    });
+    it('Retorna o status correto', () => {
+        expect(chaiHttpResponse.status).to.equal(200)
+    });
+  });
 })
