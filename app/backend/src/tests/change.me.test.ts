@@ -4,9 +4,12 @@ import chaiHttp = require('chai-http');
 import bcryptjs from 'bcryptjs';
 
 import UserMock from './mock/models/Users.json'
+import matchesMock from './mock/models/Matches.json'
 import  User from '../database/models/User'
 import { app } from '../app';
 import { Response } from 'superagent';
+import Match from '../database/models/Match';
+import MatchInterface from '../interfaces/Imatch';
 
 
 chai.use(chaiHttp);
@@ -99,3 +102,27 @@ describe('POST /login', () => {
     })
   })
 });
+describe('GET matches', () => {
+  describe('Retorna todas as partidas', () => {
+    let chaiHttpResponse: Response;
+    beforeEach(async () => {
+      sinon.stub(Match, 'findAll').resolves(matchesMock as any);
+      chaiHttpResponse = await chai
+      .request(app)
+      .get('/matches')
+    });
+    afterEach(() => {
+      (Match.findAll as sinon.SinonStub).restore();
+    });
+    it('Retorna um array de partidas', () => {
+      expect(chaiHttpResponse.body).to.be.an('array')
+    });
+    it('Cada partida tem os atributos adequado', () => {
+      chaiHttpResponse.body.map((obj: MatchInterface) => expect(obj).to.have.property('homeTeam'))
+      chaiHttpResponse.body.map((obj: MatchInterface) => expect(obj).to.have.property('awayTeam'))
+    });
+    it('Retorna o status correto', () => {
+      expect(chaiHttpResponse.status).to.equal(200)
+    })
+  })
+})
