@@ -17,18 +17,26 @@ const get = async (req: Request, res: Response, _next: NextFunction) => {
   res.status(200).json(result);
 };
 
-// const getFiltered = async (req: Request, res: Response, _next: NextFunction) => {
-//     const { inProgress } = req.query;
-//     if(inProgress) {
-//         const result = await matchService.getOngoing();
-//         res.status(200).json(result)
-//     }
-//     const result = await matchService.getFinished();
-//     res.status(200).json(result);
-// }
+const post = async (req: Request, res: Response, _next: NextFunction) => {
+  const { authorization } = req.headers;
+  const { homeTeam, awayTeam, homeTeamGoals, awayTeamGoals, inProgress } = req.body;
+  const result = await matchService.post(
+    { homeTeam, awayTeam, homeTeamGoals, awayTeamGoals, inProgress },
+    authorization || '',
+  );
+  res.status(201).json(result);
+};
+
+const patch = async (req: Request, res: Response, _next: NextFunction) => {
+  const { id } = req.params;
+  await matchService.changeToFinished(parseInt(id, 10));
+  res.status(200).json({ message: 'Updated' });
+};
 
 const matchController = {
   get,
+  post,
+  patch,
 };
 
 export default matchController;
