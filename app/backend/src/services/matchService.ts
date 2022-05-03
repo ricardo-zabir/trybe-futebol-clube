@@ -118,12 +118,18 @@ const changeToFinished = async (id: number) => {
   await Match.update({ inProgress: 0 }, { where: { id } });
 };
 
+const changeScore = async (id: number, homeTeamGoals: number, awayTeamGoals: number) => {
+  if (!homeTeamGoals || !awayTeamGoals) changeToFinished(id);
+  else await Match.update({ homeTeamGoals, awayTeamGoals }, { where: { id } });
+};
+
 const matchService = {
   get,
   getOngoing,
   getFinished,
   post,
   changeToFinished,
+  changeScore,
 };
 
 export default matchService;

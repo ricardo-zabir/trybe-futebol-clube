@@ -33,10 +33,18 @@ const patch = async (req: Request, res: Response, _next: NextFunction) => {
   res.status(200).json({ message: 'Updated' });
 };
 
+const patchScore = async (req: Request, res: Response, _next: NextFunction) => {
+  const { id } = req.params;
+  const { homeTeamGoals, awayTeamGoals } = req.body;
+  await matchService.changeScore(parseInt(id, 10), homeTeamGoals, awayTeamGoals);
+  res.status(200).json({ message: 'Updated' });
+};
+
 const matchController = {
   get,
   post,
   patch,
+  patchScore,
 };
 
 export default matchController;
