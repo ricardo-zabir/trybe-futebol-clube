@@ -11,9 +11,15 @@ const leaderboardAway = async (_req: Request, res: Response, _next: NextFunction
   res.status(200).json(result);
 };
 
+const leaderboard = async (_req: Request, res: Response, _next: NextFunction) => {
+  const result = await leaderboardService.generalLeaderboard();
+  res.status(200).json(result);
+};
+
 const leaderboardController = {
   leaderboardHome,
   leaderboardAway,
+  leaderboard,
 };
 
 export default leaderboardController;
